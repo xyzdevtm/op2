@@ -1,0 +1,33 @@
+{
+  "name": "openfront-panel",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "build": "tsc",
+    "seed": "tsx src/db/seed.ts"
+  },
+  "dependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "bcryptjs": "^3.0.3",
+    "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.14.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.6",
+    "@types/express-session": "^1.18.1",
+    "@types/node": "^24.0.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.3"
+  }
+}
