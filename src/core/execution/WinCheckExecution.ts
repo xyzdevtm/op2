@@ -67,6 +67,23 @@ export class WinCheckExecution implements Execution {
     const timeElapsed = this.mg.elapsedGameSeconds();
     const numTilesWithoutFallout =
       this.mg.numLandTiles() - this.mg.numTilesWithFallout();
+
+    // Guard: if there are no available tiles (all fallout), skip percentage check.
+    if (numTilesWithoutFallout <= 0) {
+      console.warn(
+        "WinCheckExecution.checkWinnerFFA: no non-fallout tiles (all tiles are fallout) — skipping percentage-based win check",
+      );
+      return;
+    }
+
+    // If there's a tie for top owned tiles, don't declare an immediate winner here.
+    if (sorted.length > 1 && sorted[0].numTilesOwned() === sorted[1].numTilesOwned()) {
+      console.log(
+        `WinCheckExecution.checkWinnerFFA: tie detected for top tiles (tiles=${sorted[0].numTilesOwned()}) — deferring winner decision`,
+      );
+      return;
+    }
+
     if (
       (max.numTilesOwned() / numTilesWithoutFallout) * 100 >
         this.mg.config().percentageTilesOwnedToWin() ||
@@ -102,6 +119,23 @@ export class WinCheckExecution implements Execution {
     const timeElapsed = this.mg.elapsedGameSeconds();
     const numTilesWithoutFallout =
       this.mg.numLandTiles() - this.mg.numTilesWithFallout();
+
+    // Guard: if there are no available tiles (all fallout), skip percentage check.
+    if (numTilesWithoutFallout <= 0) {
+      console.warn(
+        "WinCheckExecution.checkWinnerTeam: no non-fallout tiles (all tiles are fallout) — skipping percentage-based win check",
+      );
+      return;
+    }
+
+    // Tie handling between top two teams
+    if (sorted.length > 1 && sorted[0][1] === sorted[1][1]) {
+      console.log(
+        `WinCheckExecution.checkWinnerTeam: tie detected for top teams (tiles=${sorted[0][1]}) — deferring winner decision`,
+      );
+      return;
+    }
+
     const percentage = (max[1] / numTilesWithoutFallout) * 100;
     if (
       percentage > this.mg.config().percentageTilesOwnedToWin() ||
